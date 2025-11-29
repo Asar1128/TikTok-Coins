@@ -20,7 +20,9 @@ const COIN_PACKAGES: CoinPackage[] = [
 ];
 
 const App: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    return localStorage.getItem('isAuthenticated') === 'true';
+  });
   const [view, setView] = useState<'main' | 'payment'>('main');
   const [selectedPackageId, setSelectedPackageId] = useState<number>(COIN_PACKAGES[0].id);
   const [savedCards, setSavedCards] = useState<CardDetails[]>([]);
@@ -30,6 +32,7 @@ const App: React.FC = () => {
   const packageForPayment = customPackage || selectedPackageFromList;
 
   const handleLoginSuccess = () => {
+    localStorage.setItem('isAuthenticated', 'true');
     setIsAuthenticated(true);
   };
 
